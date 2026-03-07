@@ -73,7 +73,9 @@ Since this is a static export, you can host it on any platform:
 - **Netlify** — drag and drop the `out/` folder or connect your repo
 - **GitHub Pages** — push the `out/` contents to a `gh-pages` branch
 
-### Example: AWS S3 + CloudFront
+For a full step-by-step AWS setup guide (S3, CloudFront, Route 53, ACM), see **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+
+### Quick Deploy (once infrastructure is set up)
 
 ```bash
 npm run build

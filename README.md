@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Site Template
 
-## Getting Started
+A modern, responsive portfolio site template built with Next.js and Tailwind CSS. Designed for IT professionals, engineers, and technical leaders to showcase their experience, skills, and projects.
 
-First, run the development server:
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router, static export)
+- **Styling:** Tailwind CSS 4
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
+- **Language:** TypeScript
+
+## Features
+
+- Responsive single-page layout with dark theme
+- Animated sections with scroll-triggered transitions
+- Interactive skill filtering by category
+- Project showcase cards
+- System architecture diagrams
+- Contact section with email and social links
+- Static export — no server required
+
+## Quick Start
 
 ```bash
+git clone <repo-url>
+cd <repo-name>
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to preview.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Make It Yours
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All site content is in a single file: **`src/data/content.ts`**
 
-## Learn More
+Update these fields to personalize the site:
 
-To learn more about Next.js, take a look at the following resources:
+- `siteConfig` — your name, title, tagline, email, GitHub, and LinkedIn
+- `about` — your bio
+- `experiences` — your work history (role, company, highlights)
+- `skillCategories` — your technical skills grouped by category
+- `projects` — project cards with descriptions and tags
+- `futureThemes` / `futureManifesto` — your professional vision
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+No need to touch any component files unless you want to change the layout or styling.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+src/
+  app/            # Next.js app router (layout, page, global styles)
+  components/     # UI components (Hero, About, Skills, Projects, etc.)
+  data/           # Site content and configuration — edit this
+public/           # Static assets (SVGs, favicon)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Building for Production
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+```
+
+Generates a static site in the `out/` directory, ready to deploy anywhere that serves static files.
+
+## Deployment
+
+Since this is a static export, you can host it on any platform:
+
+- **AWS (S3 + CloudFront)** — upload `out/` to an S3 bucket behind CloudFront
+- **Vercel** — connect your GitHub repo for automatic deploys
+- **Netlify** — drag and drop the `out/` folder or connect your repo
+- **GitHub Pages** — push the `out/` contents to a `gh-pages` branch
+
+### Example: AWS S3 + CloudFront
+
+```bash
+npm run build
+aws s3 sync out/ s3://YOUR_BUCKET_NAME --delete
+aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+```
+
+## License
+
+MIT

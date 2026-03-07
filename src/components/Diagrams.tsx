@@ -15,6 +15,13 @@ import {
   Cpu,
   Activity,
   Cog,
+  Globe,
+  GitBranch,
+  Code2,
+  Lock,
+  Rocket,
+  Zap,
+  Package,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
@@ -255,6 +262,176 @@ const pipelineSteps = [
   { label: "Monitoring", icon: <BarChart3 className="w-3.5 h-3.5" /> },
 ];
 
+/* ------------------------------------------------------------------ */
+/*  Diagram 3 -- This Site: Build & Delivery Pipeline                   */
+/* ------------------------------------------------------------------ */
+
+const cicdStages = [
+  { label: "Lint & Types", icon: <Cog className="w-3.5 h-3.5" /> },
+  { label: "Build & Test", icon: <Package className="w-3.5 h-3.5" /> },
+  { label: "TF Plan / Apply", icon: <Layers className="w-3.5 h-3.5" />, accent: true },
+  { label: "Deploy", icon: <Rocket className="w-3.5 h-3.5" />, accent: true },
+];
+
+function SiteArchDiagram() {
+  return (
+    <AnimatedSection delay={0.4}>
+      <div className="bg-card/60 backdrop-blur border border-card-border rounded-2xl p-6 sm:p-8 card-hover">
+        {/* Title */}
+        <div className="flex items-center gap-3 mb-6">
+          <Globe className="w-5 h-5 text-cyan" />
+          <h4 className="font-mono font-bold text-sm text-cyan tracking-wider">
+            This Site &mdash; Build &amp; Delivery Pipeline
+          </h4>
+        </div>
+
+        {/* Layer 1: Development Stack */}
+        <div className="border border-card-border rounded-xl p-4 bg-background/40">
+          <p className="font-mono text-[10px] text-muted uppercase tracking-widest mb-3">
+            Development Stack
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <DiagramBox
+              label="Next.js 16"
+              icon={<Code2 className="w-3.5 h-3.5" />}
+              accent
+            />
+            <DiagramBox
+              label="React 19"
+              icon={<Code2 className="w-3.5 h-3.5" />}
+            />
+            <DiagramBox
+              label="TypeScript 5"
+              icon={<Code2 className="w-3.5 h-3.5" />}
+            />
+            <DiagramBox
+              label="Tailwind CSS 4"
+              icon={<Layers className="w-3.5 h-3.5" />}
+            />
+            <DiagramBox
+              label="Framer Motion"
+              icon={<Zap className="w-3.5 h-3.5" />}
+            />
+          </div>
+        </div>
+
+        <VerticalConnector />
+
+        {/* Layer 2: GitHub + CI/CD Pipeline */}
+        <div className="border border-cyan/20 rounded-xl p-4 bg-cyan/[0.03]">
+          <p className="font-mono text-[10px] text-cyan uppercase tracking-widest mb-3 font-bold flex items-center gap-1.5">
+            <GitBranch className="w-3 h-3" /> GitHub &amp; CI/CD
+          </p>
+
+          {/* Trigger label */}
+          <p className="font-mono text-[9px] text-muted mb-2 tracking-wide">
+            Push to main &rarr; GitHub Actions workflow triggers:
+          </p>
+
+          {/* Desktop: horizontal pipeline */}
+          <div className="hidden md:flex items-center gap-1 overflow-x-auto pb-1">
+            {cicdStages.map((stage, i) => (
+              <div key={stage.label} className="flex items-center shrink-0">
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 + i * 0.1, duration: 0.4 }}
+                >
+                  <DiagramBox
+                    label={stage.label}
+                    icon={stage.icon}
+                    accent={stage.accent}
+                  />
+                </motion.div>
+                {i < cicdStages.length - 1 && <HorizontalArrow />}
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile: vertical pipeline */}
+          <div className="flex md:hidden flex-col items-center gap-1">
+            {cicdStages.map((stage, i) => (
+              <div key={stage.label} className="flex flex-col items-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 + i * 0.1, duration: 0.4 }}
+                >
+                  <DiagramBox
+                    label={stage.label}
+                    icon={stage.icon}
+                    accent={stage.accent}
+                  />
+                </motion.div>
+                {i < cicdStages.length - 1 && <VerticalConnector />}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <VerticalConnector animated />
+
+        {/* Layer 3: Infrastructure (Terraform-managed) */}
+        <div className="border border-card-border rounded-xl p-4 bg-background/40">
+          <div className="flex items-center justify-between mb-3">
+            <p className="font-mono text-[10px] text-muted uppercase tracking-widest">
+              Infrastructure
+            </p>
+            <span className="font-mono text-[9px] text-cyan/70 bg-cyan/[0.08] border border-cyan/20 rounded px-2 py-0.5">
+              Terraform-managed
+            </span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <DiagramBox
+              label="GCP Cloud Run"
+              icon={<Cloud className="w-3.5 h-3.5" />}
+              accent
+            />
+            <DiagramBox
+              label="Cloud CDN"
+              icon={<Globe className="w-3.5 h-3.5" />}
+              accent
+            />
+            <DiagramBox
+              label="Cloud DNS"
+              icon={<Globe className="w-3.5 h-3.5" />}
+            />
+            <DiagramBox
+              label="SSL / TLS"
+              icon={<Lock className="w-3.5 h-3.5" />}
+            />
+          </div>
+        </div>
+
+        {/* Bottom: Live indicator */}
+        <motion.div
+          className="mt-5 border border-cyan/30 bg-cyan/[0.04] rounded-lg px-4 py-3 flex items-center justify-center gap-3"
+          animate={{
+            boxShadow: [
+              "0 0 0px rgba(0,229,255,0)",
+              "0 0 16px rgba(0,229,255,0.12)",
+              "0 0 0px rgba(0,229,255,0)",
+            ],
+          }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <motion.div
+            className="w-2 h-2 rounded-full bg-green-400"
+            animate={{ opacity: [1, 0.4, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <span className="font-mono text-xs text-cyan tracking-wide">
+            Live &mdash; Automated Deploys &bull; Push to Main &bull; Zero
+            Downtime
+          </span>
+        </motion.div>
+      </div>
+    </AnimatedSection>
+  );
+}
+
 function MLOpsPipeline() {
   return (
     <AnimatedSection delay={0.25}>
@@ -345,6 +522,7 @@ export default function Diagrams() {
         </AnimatedSection>
 
         <div className="flex flex-col gap-8">
+          <SiteArchDiagram />
           <HybridCloudDiagram />
           <MLOpsPipeline />
         </div>
